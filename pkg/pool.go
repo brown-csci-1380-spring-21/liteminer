@@ -11,7 +11,6 @@ import (
 	"io"
 	"net"
 	"sync"
-	"time"
 
 	"go.uber.org/atomic"
 )
@@ -39,8 +38,6 @@ func CreatePool(port string) (*Pool, error) {
 	p := &Pool{
 		busy:        atomic.NewBool(false),
 		Miners:      make(map[net.Addr]MiningConn),
-		workQueue:   make(chan WorkRequest),
-		numRequests: atomic.NewUint64(0),
 	}
 
 	// TODO: Students should (if necessary) initialize any additional members
