@@ -59,7 +59,7 @@ func (m *Miner) receiveFromPool(conn MiningConn) {
 
 		msg, err := RecvMsg(conn)
 		if err != nil {
-			if err == io.EOF {
+			if _, ok := err.(*net.OpError); ok || err == io.EOF {
 				Err.Printf("Lost connection to pool %v\n", conn.Conn.RemoteAddr())
 				conn.Conn.Close() // Close the connection
 				return
