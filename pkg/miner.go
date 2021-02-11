@@ -8,10 +8,10 @@ package pkg
 
 import (
 	"fmt"
-	"io"
-	"time"
-
 	"go.uber.org/atomic"
+	"io"
+	"net"
+	"time"
 )
 
 // HeartbeatFreq is the frequency at which a miner sends heartbeats to the pool
