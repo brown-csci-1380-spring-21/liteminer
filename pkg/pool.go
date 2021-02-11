@@ -18,7 +18,6 @@ import (
 // HeartbeatTimeout is the time duration at which a pool considers a miner 'dead'
 const HeartbeatTimeout = 3 * HeartbeatFreq
 
-
 // Pool represents a LiteMiner mining pool
 type Pool struct {
 	Addr net.Addr
@@ -36,8 +35,8 @@ type Pool struct {
 // CreatePool creates a new pool at the specified port.
 func CreatePool(port string) (*Pool, error) {
 	p := &Pool{
-		busy:        atomic.NewBool(false),
-		Miners:      make(map[net.Addr]MiningConn),
+		busy:   atomic.NewBool(false),
+		Miners: make(map[net.Addr]MiningConn),
 	}
 
 	// TODO: Students should (if necessary) initialize any additional members
@@ -140,7 +139,7 @@ func (p *Pool) handleClientConnection(conn MiningConn) {
 	for {
 		msg, err := RecvMsg(conn)
 		if err != nil {
-			if err == io.EOF {
+			if _, ok := err.(*net.OpError); ok || err == io.EOF {
 				Out.Printf("Client %v disconnected\n", conn.Conn.RemoteAddr())
 
 				conn.Conn.Close() // Close the connection
